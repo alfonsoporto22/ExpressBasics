@@ -10,4 +10,4 @@ npm install express
 ```
 5. Creamos la carpeta `src` y nuestro `index.mjs`
 
-Usa los ejemplos del repositorio y la codumentación [de Express](https://meet.jit.si/moderated/53345ad8afd0e2bb1d08b9056318df13e6e1dfc202341f3850471adc79cacd61)
+Usa los ejemplos del repositorio y la codumentación [de Express](https://expressjs.com/es/starter/hello-world.html)
