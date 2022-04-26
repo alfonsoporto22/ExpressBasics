@@ -1,7 +1,9 @@
 import express from "express";
+import { config } from "dotenv";
+
+if ( ! process.env.NODE_ENV === "production" ) config()
+
 const app = express();
-const PORT = 3000;
-const PATH_PREFIX = "/api/v0.0";
 
 import { authMiddleware } from "./middleware/authorization.mjs";
 import { requestLog } from "./middleware/requestsLog.mjs";
@@ -9,16 +11,16 @@ import { requestLog } from "./middleware/requestsLog.mjs";
 import { postUserController } from "./controllers/usersControllers.mjs";
 import { deleteTaskController, getTaskController, postTaskController, putTaskController } from "./controllers/tasksControllers.mjs";
 
-app.use(express.json());
+const jsonParser = express.json();
 app.use(requestLog);
 
-app.post(PATH_PREFIX+"/users/", postUserController);
+app.post(process.env.PATH_PREFIX+"/users/", jsonParser, postUserController);
 
-app.get(PATH_PREFIX+"/tasks/", authMiddleware, getTaskController);
-app.post(PATH_PREFIX+"/task/", authMiddleware, postTaskController);
-app.put(PATH_PREFIX+"/task/", authMiddleware, putTaskController);
-app.delete(PATH_PREFIX+"/task/", authMiddleware, deleteTaskController);
+app.get(process.env.PATH_PREFIX+"/tasks/", authMiddleware, getTaskController);
+app.post(process.env.PATH_PREFIX+"/task/", authMiddleware, jsonParser, postTaskController);
+app.put(process.env.PATH_PREFIX+"/task/", authMiddleware, jsonParser, putTaskController);
+app.delete(process.env.PATH_PREFIX+"/task/", authMiddleware, jsonParser, deleteTaskController);
 
-app.listen(PORT,()=>{
+app.listen(process.env.PORT,()=>{
     console.log("Express running...");
 });

@@ -1,3 +1,4 @@
+import { response } from "express";
 import { users } from "../models/usersModels.mjs";
 
 function decodeAuthBasic (headerContent) {
@@ -8,17 +9,27 @@ function decodeAuthBasic (headerContent) {
 }
 
 export function authMiddleware( request, response, next ) {
-    const { method, username, password } = decodeAuthBasic(request.headers.authorization);
+    try {
+        const { method, username, password } = decodeAuthBasic(request.headers.authorization);
 
-    if ( method != "Basic" ) throw "Invalid authorization method. Use Basic instead."
-
-    const user = users.find(
-        item => item.name === username && item.password === password
-    )
-
-    if ( user ) {
-        next()
-    }  else {
-        throw "Authorization error"
+        if ( method != "Basic" ) {
+            response.sendState(401);
+            return;
+        }//throw "Invalid authorization method. Use Basic instead."
+    
+        const user = users.find(
+            item => item.name === username && item.password === password
+        )
+    
+        if ( user ) {
+            next()
+        }  else {
+            response.sendState(401);
+            return;
+            //throw "Authorization error"
+        }
+    } catch (err) {
+        response.sendStatus(401);
+        return;
     }
 }
