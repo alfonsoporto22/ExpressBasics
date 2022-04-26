@@ -1,13 +1,13 @@
 import express from "express";
 
-const app = express();
-const PATH_PREFIX = "/api/v0.0"
-
 import { authMiddleware } from "./middleware/authorization.mjs";
 import { requestLog } from "./middleware/requestsLog.mjs";
 
 import { postUserController } from "./controllers/usersControllers.mjs";
 import { deleteTaskController, getTaskController, postTaskController, putTaskController } from "./controllers/tasksControllers.mjs";
+
+const PATH_PREFIX = "/api/v0.0"
+const app = express();
 
 const jsonParser = express.json();
 app.use(requestLog);
