@@ -12,8 +12,6 @@ import { deleteTaskController, getTaskController, postTaskController, putTaskCon
 const jsonParser = express.json();
 app.use(requestLog);
 
-app.post(PATH_PREFIX+"/", (req, res) => res.sendStatus(200));
-
 app.post(PATH_PREFIX+"/users/", jsonParser, postUserController);
 
 app.get(PATH_PREFIX+"/tasks/", authMiddleware, getTaskController);
