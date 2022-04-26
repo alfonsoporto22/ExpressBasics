@@ -21,6 +21,6 @@ app.post(process.env.PATH_PREFIX+"/task/", authMiddleware, jsonParser, postTaskC
 app.put(process.env.PATH_PREFIX+"/task/", authMiddleware, jsonParser, putTaskController);
 app.delete(process.env.PATH_PREFIX+"/task/", authMiddleware, jsonParser, deleteTaskController);
 
-app.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT || 3000,()=>{
     console.log("Express running...");
 });
