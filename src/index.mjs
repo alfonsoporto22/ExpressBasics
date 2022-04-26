@@ -1,7 +1,4 @@
 import express from "express";
-import { config } from "dotenv";
-
-if ( ! process.env.NODE_ENV === "production" ) config()
 
 const app = express();
 const PATH_PREFIX = "/api/v0.0"
