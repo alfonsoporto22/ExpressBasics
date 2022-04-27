@@ -5,8 +5,13 @@ export function getTaskController (request, response) {
 }
 
 export function postTaskController (request, response) {
-    tasks.push(request.body);
-    response.sendStatus(201);
+    try {
+        tasks.push(request.body);
+        response.sendStatus(201);
+    } catch (err) {
+        console.error(err);
+        response.sendStatus(500);
+    }
 }
 
 export function putTaskController (request, response) {
