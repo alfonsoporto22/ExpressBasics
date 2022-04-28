@@ -4,7 +4,7 @@ import { authMiddleware } from "./middleware/authorization.mjs";
 import { requestLog } from "./middleware/requestsLog.mjs";
 
 import { postUserController } from "./controllers/usersControllers.mjs";
-import { deleteTaskController, getTaskController, postTaskController, putTaskController } from "./controllers/tasksControllers.mjs";
+import { deleteTaskController, getOneTaskController, getAllTasksController, postTaskController, putTaskController } from "./controllers/tasksControllers.mjs";
 
 const PATH_PREFIX = "/api/v0.0"
 const app = express();
@@ -14,7 +14,8 @@ try {
 
     app.post(PATH_PREFIX+"/users/", jsonParser, postUserController);
 
-    app.get(PATH_PREFIX+"/tasks/", authMiddleware, getTaskController);
+    app.get(PATH_PREFIX+"/tasks/:id", authMiddleware, getOneTaskController);
+    app.get(PATH_PREFIX+"/tasks/", authMiddleware, getAllTasksController);
     app.post(PATH_PREFIX+"/task/", authMiddleware, jsonParser, postTaskController);
     app.put(PATH_PREFIX+"/task/", authMiddleware, jsonParser, putTaskController);
     app.delete(PATH_PREFIX+"/task/", authMiddleware, jsonParser, deleteTaskController);
