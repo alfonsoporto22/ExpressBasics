@@ -1,9 +1,5 @@
 import { tasks } from "../models/tasksModels.mjs"
 
-export function getAllTasksController (request, response) {
-    response.json(tasks)
-}
-
 export function getOneTaskController (request, response) {
     try {
         const task = tasks.find(
@@ -14,6 +10,10 @@ export function getOneTaskController (request, response) {
     } catch (err) {
         response.sendStatus(400)
     }
+}
+
+export function getAllTasksController (request, response) {
+    response.json(tasks)
 }
 
 export function postTaskController (request, response) {
