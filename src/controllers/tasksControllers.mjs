@@ -61,12 +61,18 @@ export function putTaskController (request, response) {
         }
     )
 }
-
+//Controlador para eliminar una tarea
 export function deleteTaskController (request, response) {
-    const updatedTask = request.body;
-    const oldTaskIdx = tasks.findIndex(
-        item => item.id === updatedTask.id
+    const { id } = request.body;
+    db.run(
+        `DELETE FROM tasks WHERE id="${id}"`,
+        (err)=>{
+            if (err) {
+                console.error(err);
+                response.sendStatus(500)
+            } else {
+                response.sendStatus(201)
+            }
+        }
     )
-    tasks.splice(oldTaskIdx,1);
-    response.sendStatus(200)
 }
