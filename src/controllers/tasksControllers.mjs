@@ -2,11 +2,11 @@ import { tasks } from "../models/tasksModels.mjs"
 import { db } from "../models/db.mjs"
 
 //Controlador para devolver todas las tareas
-export function getAllTasksController (request, response) {
+export function getAllTasksController(request, response) {
     db.all(
         `SELECT id, description, done FROM tasks`,
-        (err,data)=>{
-            if ( err ) {
+        (err, data) => {
+            if (err) {
                 console.error(err);
                 response.sendStatus(500)
             } else {
@@ -16,12 +16,12 @@ export function getAllTasksController (request, response) {
     )
 }
 
-export function getOneTaskController (request, response) {
+export function getOneTaskController(request, response) {
     try {
         const task = tasks.find(
             item => item.id === parseInt(request.params.id)
         )
-        if ( task ) response.json(task)
+        if (task) response.json(task)
         else response.sendStatus(404);
     } catch (err) {
         response.sendStatus(400)
@@ -30,11 +30,11 @@ export function getOneTaskController (request, response) {
 
 
 //Controlador para insertar una tarea
-export function postTaskController (request, response) {
+export function postTaskController(request, response) {
     const { description, done } = request.body;
     db.run(
         `INSERT INTO tasks(description, done) VALUES ("${description}", ${done})`,
-        (err)=>{
+        (err) => {
             if (err) {
                 console.error(err);
                 response.sendStatus(500)
@@ -46,12 +46,12 @@ export function postTaskController (request, response) {
 }
 
 //Controlador para modificar una tarea
-export function putTaskController (request, response) {
+export function putTaskController(request, response) {
     const { id, description, done } = request.body;
     db.run(
         `UPDATE tasks SET description="${description}",
         done= ${done} WHERE id="${id} "`,
-        (err)=>{
+        (err) => {
             if (err) {
                 console.error(err);
                 response.sendStatus(500)
@@ -62,11 +62,11 @@ export function putTaskController (request, response) {
     )
 }
 //Controlador para eliminar una tarea
-export function deleteTaskController (request, response) {
+export function deleteTaskController(request, response) {
     const { id } = request.body;
     db.run(
         `DELETE FROM tasks WHERE id="${id}"`,
-        (err)=>{
+        (err) => {
             if (err) {
                 console.error(err);
                 response.sendStatus(500)
