@@ -1,7 +1,18 @@
 import { tasks } from "../models/tasksModels.mjs"
+import { db } from "../models/db.mjs"
 
 export function getAllTasksController (request, response) {
-    response.json(tasks)
+    db.all(
+        `SELECT id, description, done FROM tasks`,
+        (err,data)=>{
+            if ( err ) {
+                console.error(err);
+                response.sendStatus(500)
+            } else {
+                response.json(data)
+            }
+        }
+    )
 }
 
 export function getOneTaskController (request, response) {
@@ -17,13 +28,18 @@ export function getOneTaskController (request, response) {
 }
 
 export function postTaskController (request, response) {
-    try {
-        tasks.push({...request.body, id: Date.now()});
-        response.sendStatus(201);
-    } catch (err) {
-        console.error(err);
-        response.sendStatus(500);
-    }
+    const { description, done } = request.body;
+    db.run(
+        `INSERT INTO tasks(description, done) VALUES ("${description}", ${done})`,
+        (err)=>{
+            if (err) {
+                console.error(err);
+                response.sendStatus(500)
+            } else {
+                response.sendStatus(201)
+            }
+        }
+    )
 }
 
 export function putTaskController (request, response) {
