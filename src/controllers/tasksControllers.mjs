@@ -1,6 +1,7 @@
 import { tasks } from "../models/tasksModels.mjs"
 import { db } from "../models/db.mjs"
 
+//Controlador para devolver todas las tareas
 export function getAllTasksController (request, response) {
     db.all(
         `SELECT id, description, done FROM tasks`,
@@ -27,10 +28,8 @@ export function getOneTaskController (request, response) {
     }
 }
 
-export function getAllTasksController (request, response) {
-    response.json(tasks)
-}
 
+//Controlador para insertar una tarea
 export function postTaskController (request, response) {
     const { description, done } = request.body;
     db.run(
@@ -46,13 +45,21 @@ export function postTaskController (request, response) {
     )
 }
 
+//Controlador para modificar una tarea
 export function putTaskController (request, response) {
-    const updatedTask = request.body;
-    const oldTaskIdx = tasks.findIndex(
-        item => item.id === updatedTask.id
+    const { id, description, done } = request.body;
+    db.run(
+        `UPDATE tasks SET description="${description}",
+        done= ${done} WHERE id="${id} "`,
+        (err)=>{
+            if (err) {
+                console.error(err);
+                response.sendStatus(500)
+            } else {
+                response.sendStatus(201)
+            }
+        }
     )
-    tasks[oldTaskIdx] = updatedTask;
-    response.sendStatus(200);
 }
 
 export function deleteTaskController (request, response) {
