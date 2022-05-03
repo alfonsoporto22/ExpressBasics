@@ -16,16 +16,20 @@ export function getAllTasksController(request, response) {
     )
 }
 
+//Controlador para devolver una tarea
 export function getOneTaskController(request, response) {
-    try {
-        const task = tasks.find(
-            item => item.id === parseInt(request.params.id)
-        )
-        if (task) response.json(task)
-        else response.sendStatus(404);
-    } catch (err) {
-        response.sendStatus(400)
-    }
+    const task =  parseInt(request.params.id)
+    db.all(
+        `SELECT id, description, done FROM tasks WHERE id="${task}"`,
+        (err, data) => {
+            if (err) {
+                console.error(err);
+                response.sendStatus(500)
+            } else {
+                response.json(data)
+            }
+        }
+    )
 }
 
 
