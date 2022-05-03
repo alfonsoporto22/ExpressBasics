@@ -31,9 +31,10 @@ export function getOneTaskController(request, response) {
 
 //Controlador para insertar una tarea
 export function postTaskController(request, response) {
-    const { description, done } = request.body;
+    const { id, description, done } = request.body;
     db.run(
-        `INSERT INTO tasks(description, done) VALUES ("${description}", ${done})`,
+        `INSERT INTO tasks(id, description, done) VALUES 
+            ("${id}","${description}", ${done})`,
         (err) => {
             if (err) {
                 console.error(err);
@@ -71,7 +72,7 @@ export function deleteTaskController(request, response) {
                 console.error(err);
                 response.sendStatus(500)
             } else {
-                response.sendStatus(201)
+                response.sendStatus(200)
             }
         }
     )
